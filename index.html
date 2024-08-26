@@ -66,6 +66,28 @@
             margin-bottom: 10px;
             font-size: 18px;
         }
+        .donation-counter {
+            text-align: center;
+            padding: 50px 0;
+            background-color: #ecf0f1;
+            margin-top: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        .donation-counter h2 {
+            font-size: 36px;
+            color: #16a085;
+            margin-bottom: 20px;
+        }
+        .counter {
+            font-size: 60px;
+            font-weight: bold;
+            color: #e74c3c;
+        }
+        .counter:after {
+            content: "৳";
+            margin-left: 5px;
+        }
         .footer {
             background: #2c3e50;
             color: #fff;
@@ -127,6 +149,13 @@
         <p>অথবা, আমাদের সাথে সরাসরি যোগাযোগ করুন উপরে দেওয়া যেকোনো একটি নাম্বারে।</p>
     </div>
 
+    <!-- Donation Counter -->
+    <div class="donation-counter">
+        <h2>Total Donations Raised:</h2>
+        <div id="counter" class="counter" data-target="0">0</div>
+        <p>৳</p>
+    </div>
+
     <div class="footer">
         <p>আসুন, সবাই একসাথে মানবিকতার পরিচয় দেই। 🌱 | <a href="#hero">উপরের দিকে উঠুন</a></p>
         <p class="copyright">&copy; 2024 Made By Talha</p>
@@ -146,6 +175,41 @@
             });
         });
     </script>
+
+    <!-- Donation Counter Script -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const counters = document.querySelectorAll('.counter');
+            const speed = 200; // The lower the slower
+
+            counters.forEach(counter => {
+                const updateCount = () => {
+                    const target = +counter.getAttribute('data-target');
+                    const count = +counter.innerText;
+
+                    const inc = target / speed;
+
+                    if (count < target) {
+                        counter.innerText = Math.ceil(count + inc);
+                        setTimeout(updateCount, 1);
+                    } else {
+                        counter.innerText = target.toLocaleString(); // Add commas for thousands
+                    }
+                };
+
+                updateCount();
+            });
+        });
+
+        // Function to update the donation counter value
+        function updateDonationCounter(amount) {
+            const counterElement = document.getElementById('counter');
+            const currentTarget = parseInt(counterElement.getAttribute('data-target'));
+            counterElement.setAttribute('data-target', currentTarget + amount);
+        }
+
+        // Example: Update the counter with a new donation of 5000 BDT
+        updateDonationCounter(5000);
+    </script>
 </body>
-  </html>
-  
+</html>
